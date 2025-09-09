@@ -1,0 +1,1 @@
+An interactive Java graphing calculator built from scratch with a custom parser, interpreter, and math engine: Supports plotting explicit functions with advanced math features like trigonometry, derivatives, integrals. Complete with zoom, pan, and multiple function plotting.
