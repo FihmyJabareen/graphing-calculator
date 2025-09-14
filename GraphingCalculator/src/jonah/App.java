@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class App extends JPanel {
-
 	private static ArrayList<Integer> parseIndex = new ArrayList<Integer>();
 	private static ArrayList<Double> initialX = new ArrayList<Double>();
 	private static ArrayList<Double> finalX = new ArrayList<Double>();
@@ -156,7 +155,7 @@ public class App extends JPanel {
 					}
 					if(e.getKeyChar() == 'o') { //zoom out
 						deleteLines();
-						zoom(-1);
+						zoom(-2);
 						for(int functionIndex = 0; functionIndex < functionCollection.size(); functionIndex++) {
 							graph(functionIndex);
 						}
@@ -169,7 +168,7 @@ public class App extends JPanel {
 					}
 					if(e.getKeyChar() == 'i') { //zoom in
 						deleteLines();
-						zoom(+1);
+						zoom(+2);
 						for(int functionIndex = 0; functionIndex < functionCollection.size(); functionIndex++) {
 							graph(functionIndex);
 						}
@@ -275,7 +274,7 @@ public class App extends JPanel {
 				}
 				if(e.getWheelRotation() > 0) { //zoom out
 					deleteLines();
-					zoom(-1);
+					zoom(-3);
 					for(int functionIndex = 0; functionIndex < functionCollection.size(); functionIndex++) {
 						graph(functionIndex);
 					}
@@ -288,7 +287,7 @@ public class App extends JPanel {
 				}
 				if(e.getWheelRotation() < 0) { //zoom in
 					deleteLines();
-					zoom(+1);
+					zoom(+3);
 					for(int functionIndex = 0; functionIndex < functionCollection.size(); functionIndex++) {
 						graph(functionIndex);
 					}
@@ -770,11 +769,11 @@ public class App extends JPanel {
 			if(tempval == '.') {
 				state = "DEC";
 			}
-			if(tempval == 's' | tempval == 'c' | tempval == 't' | tempval == 'a') {
-				if(tempval != 'a' | function.charAt(pointer + 1) == 'b') {
+			if(tempval == 's' | tempval == 'c' | tempval == 't' | tempval == 'a') { //All functions
+				if(tempval != 'a' | function.charAt(pointer + 1) == 'b') {  //For all functions except arcsin,...,arccot
 					operation.add("" + tempval + function.charAt(pointer + 1) + function.charAt(pointer + 2));
 					pointer += 2;
-				} else {
+                } else {
 					String tempadder = "";
 					for(int i = 1; i < 6; i++) {
 						tempadder += function.charAt(pointer + i);
@@ -784,6 +783,16 @@ public class App extends JPanel {
 				}
 				state = "IDLE";
 			}
+            if(tempval == 'l') {
+                if(function.charAt(pointer + 1) == 'n') {
+                    operation.add("" + tempval + function.charAt(pointer + 1));
+                    pointer++;
+                } else {
+                    operation.add("" + tempval + function.charAt(pointer + 1) + function.charAt(pointer + 2));
+                    pointer += 2;
+                }
+                state = "IDLE";
+            }
 			if (tempval == ')') {
 				if(state.equals("DEC")) {
 					num += dec/(Math.pow(10, decimalcounter));

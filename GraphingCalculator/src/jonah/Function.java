@@ -21,7 +21,7 @@ public class Function {
 			}
 			tempval = "" + formula.get(i);
 			char c = tempval.charAt(0);
-			if(c == 's' | c == 'c' | c == 't' | c == 'a') {
+			if(c == 's' | c == 'c' | c == 't' | c == 'a' | c == 'l') { //if a function like sin(x), arccot(x), abs(x), ln(x)
 				double temporaryResult = Operations(tempval, 0, evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1))));
 				formula.set(i, temporaryResult);
 				formula.remove(i + 1);
@@ -99,43 +99,67 @@ public class Function {
 	
 	private double Operations(String operator, double result, double operand) {
 		double res = result;
-		
-		if(operator.equals("+")) {
-			res += operand;
-		} else if(operator.equals("-")) {
-			res -= operand;
-		} else if(operator.equals("*")) {
-			res *= operand;
-		} else if(operator.equals("/")) {
-			res /= operand;
-		} else if(operator.equals("^")) {
-			res = Math.pow(res, operand);
-		} else if(operator.equals("sin")) {
-			res = Math.sin(operand);
-		} else if(operator.equals("cos")) {
-			res = Math.cos(operand);
-		} else if(operator.equals("tan")) {
-			res = Math.tan(operand);
-		} else if(operator.equals("arcsin")) {
-			res = Math.asin(operand);
-		} else if(operator.equals("arccos")) {
-			res = Math.acos(operand);
-		} else if(operator.equals("arctan")) {
-			res = Math.atan(operand);
-		} else if(operator.equals("arcsec")) {
-			res = Math.acos(1/operand);
-		} else if(operator.equals("arccsc")) {
-			res = Math.asin(1/operand);
-		} else if(operator.equals("arccot")) {
-			res = Math.atan(1/operand);
-		} else if(operator.equals("csc")) {
-			res = 1/Math.sin(operand);
-		} else if(operator.equals("sec")) {
-			res = 1/Math.cos(operand);
-		} else if(operator.equals("cot")) {
-			res = 1/Math.tan(operand);
-		} else if(operator.equals("abs")) {
-			res = Math.abs(operand);
+	    
+        switch (operator) {
+            case("+"):
+		    	res += operand;
+                break;
+		    case("-"): 
+                res -= operand;
+                break;
+	        case("*"): 
+			    res *= operand;
+                break;
+		    case("/"):
+                res /= operand;
+                break;
+		    case("^"):
+                res = Math.pow(res, operand);
+                break;
+            case("sin"):
+                res = Math.sin(operand);
+                break;
+            case("cos"):
+                res = Math.cos(operand);
+                break;
+            case("tan"):    
+                res = Math.tan(operand);
+                break;
+            case("arcsin"):    
+                res = Math.asin(operand);
+                break;
+            case("arccos"):    
+                res = Math.acos(operand);
+                break;
+            case("arctan"):    
+                res = Math.atan(operand);
+                break;
+            case("arcsec"):    
+                res = Math.acos(1/operand);
+                break;
+            case("arccsc"):    
+                res = Math.asin(1/operand);
+                break;
+            case("arccot"):    
+                res = Math.atan(1/operand);
+                break;
+            case("csc"):   
+                res = 1/Math.sin(operand);
+                break;
+            case("sec"):	
+                res = 1/Math.cos(operand);
+                break;
+            case("cot"):    
+                res = 1/Math.tan(operand);
+                break;
+            case("abs"):    
+                res = Math.abs(operand);
+                break;
+            case("ln"):
+                res = Math.log(operand);
+                break;
+            default:
+                res = 0;
 		}
 		
 		return res;
