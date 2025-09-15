@@ -21,7 +21,7 @@ public class Function {
 			}
 			tempval = "" + formula.get(i);
 			char c = tempval.charAt(0);
-			if(c == 's' | c == 'c' | c == 't' | c == 'a' | c == 'l') { //if a function like sin(x), arccot(x), abs(x), ln(x)
+			if(c == 's' | c == 'c' | c == 't' | c == 'a' | (c == 'l' && tempval.charAt(1) == 'n')) { //if a function like sin(x), arccot(x), abs(x), ln(x)
 				double temporaryResult = Operations(tempval, 0, evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1))));
 				formula.set(i, temporaryResult);
 				formula.remove(i + 1);
@@ -30,6 +30,13 @@ public class Function {
 				double tempres = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i)));
 				formula.set(i, tempres);
 			}
+            if(tempval.equals("log")) {
+                double base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
+                double xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
+                formula.set(i, Math.log(xVal)/Math.log(base));
+                formula.remove(i + 1);
+                formula.remove(i + 1);
+            }
 		}
 		for(int i = 0; i < formula.size(); i++) {
 			tempval = "" + formula.get(i);

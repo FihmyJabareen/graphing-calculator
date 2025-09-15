@@ -71,7 +71,7 @@ public class App extends JPanel {
 		prevY = null;
 		
 		Scanner userinput = new Scanner(System.in);
-		
+
 		System.out.println("____________________________________________________\n");
 		System.out.println("███████╗██╗██╗      █████╗   █████╗██╗      █████╗  ");
 		System.out.println("╚════██║██║██║     ██╔══██╗██╔══██╗██║     ██╔══██╗ ");
