@@ -30,10 +30,21 @@ public class Function {
 				double tempres = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i)));
 				formula.set(i, tempres);
 			}
-            if(tempval.equals("log")) {
-                double base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
-                double xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
-                formula.set(i, Math.log(xVal)/Math.log(base));
+            if(tempval.equals("log") | tempval.equals("der")) {
+                switch (tempval) {
+                    case("log"):
+                        double base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
+                        double xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
+                        formula.set(i, Math.log(xVal)/Math.log(base));
+                        break;
+                    case("der"):
+                        xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
+                        Derivative tempdev = new Derivative(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
+                        formula.set(i, tempdev.evaluate());
+                        break;
+                    default:
+                        break;
+                } 
                 formula.remove(i + 1);
                 formula.remove(i + 1);
             }
