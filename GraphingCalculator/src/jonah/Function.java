@@ -21,7 +21,7 @@ public class Function {
 			}
 			tempval = "" + formula.get(i);
 			char c = tempval.charAt(0);
-			if(c == 's' | c == 'c' | c == 't' | c == 'a' | (c == 'l' && tempval.charAt(1) == 'n')) { //if a function like sin(x), arccot(x), abs(x), ln(x)
+			if((c == 's' && tempval.charAt(1) == 'i') | c == 'c' | c == 't' | c == 'a' | (c == 'l' && tempval.charAt(1) == 'n')) { //if a function like sin(x), arccot(x), abs(x), ln(x)
 				double temporaryResult = Operations(tempval, 0, evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1))));
 				formula.set(i, temporaryResult);
 				formula.remove(i + 1);
@@ -30,17 +30,26 @@ public class Function {
 				double tempres = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i)));
 				formula.set(i, tempres);
 			}
-            if(tempval.equals("log") | tempval.equals("der")) {
+            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum")) {
+                double xVal;
                 switch (tempval) {
                     case("log"):
                         double base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
-                        double xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
+                        xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
                         formula.set(i, Math.log(xVal)/Math.log(base));
                         break;
                     case("der"):
                         xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
                         Derivative tempdev = new Derivative(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
                         formula.set(i, tempdev.evaluate());
+                        break;
+                    case("sum"):
+                        xVal = x;
+                        double lowerBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)));
+                        double higherBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
+                        Sum tempsum = new Sum(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 3)), lowerBound, higherBound);
+                        formula.set(i, tempsum.evaluate());
+                        formula.remove(i + 1);
                         break;
                     default:
                         break;
