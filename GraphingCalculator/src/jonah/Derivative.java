@@ -15,8 +15,8 @@ public class Derivative extends Formula {
 
     public double evaluate() {
         double difference = 0.00000001;
-        double fplush = equation.evaluate(xVal + difference, new ArrayList<Object>((ArrayList<Object>)function));
-        double fx = equation.evaluate(xVal, new ArrayList<Object>((ArrayList<Object>)function));
+        double fplush = equation.evaluate(xVal + difference, new ArrayList<Object>((ArrayList<Object>)function), 0);
+        double fx = equation.evaluate(xVal, new ArrayList<Object>((ArrayList<Object>)function), 0);
         return (fplush - fx)/difference;
     }
 }

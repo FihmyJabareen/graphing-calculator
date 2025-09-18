@@ -25,7 +25,7 @@ public class Sum extends Formula {
             return Double.NaN;
         }
         for(int i = lower; i <= higher; i++) {
-            sum += equation.evaluate(xVal, new ArrayList<Object>((ArrayList<Object>)function));
+            sum += equation.evaluate(xVal, new ArrayList<Object>((ArrayList<Object>)function), i);
         }
 
         return sum;

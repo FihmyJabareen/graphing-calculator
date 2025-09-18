@@ -553,7 +553,7 @@ public class App extends JPanel {
 					parseIndex.add(0);
 					ArrayList<Object> formula = ParseFunction(functionCollection.get(functionIndex), functionIndex);
 					Function tempfunction = new Function(formula);
-					yValues.get(functionIndex)[yValues.get(functionIndex).length - 1] = tempfunction.evaluate(maximumX + increment, new ArrayList<Object>(formula));
+					yValues.get(functionIndex)[yValues.get(functionIndex).length - 1] = tempfunction.evaluate(maximumX + increment, new ArrayList<Object>(formula), 0);
 				}
 				minimumX += increment;
 				maximumX += increment;
@@ -571,7 +571,7 @@ public class App extends JPanel {
 					parseIndex.add(0);
 					ArrayList<Object> formula = ParseFunction(functionCollection.get(functionIndex), functionIndex);
 					Function tempfunction = new Function(formula);
-					yValues.get(functionIndex)[0] = tempfunction.evaluate(minimumX - increment, new ArrayList<Object>(formula));
+					yValues.get(functionIndex)[0] = tempfunction.evaluate(minimumX - increment, new ArrayList<Object>(formula), 0);
 				}
 				minimumX -= increment;
 				maximumX -= increment;
@@ -821,7 +821,7 @@ public class App extends JPanel {
 					state = "NUM";
 				}
 			}
-			if (tempval == 'x' | tempval == 'e') {
+			if (tempval == 'x' | tempval == 'e' | tempval == 'n') {
 				operation.add(tempval);
 				state = "IDLE";
 			}
