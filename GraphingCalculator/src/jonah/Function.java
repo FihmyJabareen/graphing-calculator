@@ -33,11 +33,14 @@ public class Function {
 				double tempres = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i)), n);
 				formula.set(i, tempres);
 			}
-            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum")) {
+            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum") | tempval.equals("pro")) {
                 double xVal;
+                double base;
+                double lowerBound;
+                double higherBound;
                 switch (tempval) {
                     case("log"):
-                        double base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
+                        base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
                         xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
                         formula.set(i, Math.log(xVal)/Math.log(base));
                         break;
@@ -48,10 +51,18 @@ public class Function {
                         break;
                     case("sum"):
                         xVal = x;
-                        double lowerBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
-                        double higherBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
+                        lowerBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
+                        higherBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
                         Sum tempsum = new Sum(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 3)), lowerBound, higherBound);
                         formula.set(i, tempsum.evaluate());
+                        formula.remove(i + 1);
+                        break;
+                    case("pro"):
+                        xVal = x;
+                        lowerBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
+                        higherBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
+                        Product temppro = new Product(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 3)), lowerBound, higherBound);
+                        formula.set(i, temppro.evaluate());
                         formula.remove(i + 1);
                         break;
                     default:
