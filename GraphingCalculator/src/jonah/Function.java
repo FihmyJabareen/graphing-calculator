@@ -33,7 +33,7 @@ public class Function {
 				double tempres = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i)), n);
 				formula.set(i, tempres);
 			}
-            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum") | tempval.equals("pro")) {
+            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum") | tempval.equals("pro") | tempval.equals("fac")) {
                 double xVal;
                 double base;
                 double lowerBound;
@@ -43,11 +43,13 @@ public class Function {
                         base = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
                         xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
                         formula.set(i, Math.log(xVal)/Math.log(base));
+                        formula.remove(i + 1);
                         break;
                     case("der"):
                         xVal = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
                         Derivative tempdev = new Derivative(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)));
                         formula.set(i, tempdev.evaluate());
+                        formula.remove(i + 1);
                         break;
                     case("sum"):
                         xVal = x;
@@ -55,6 +57,7 @@ public class Function {
                         higherBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
                         Sum tempsum = new Sum(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 3)), lowerBound, higherBound);
                         formula.set(i, tempsum.evaluate());
+                        formula.remove(i + 1);
                         formula.remove(i + 1);
                         break;
                     case("pro"):
@@ -64,11 +67,15 @@ public class Function {
                         Product temppro = new Product(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 3)), lowerBound, higherBound);
                         formula.set(i, temppro.evaluate());
                         formula.remove(i + 1);
+                        formula.remove(i + 1);
+                        break;
+                    case("fac"):
+                        Factorial tempfac = new Factorial(new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), x);
+                        formula.set(i, tempfac.evaluate());
                         break;
                     default:
                         break;
                 } 
-                formula.remove(i + 1);
                 formula.remove(i + 1);
             }
 		}
