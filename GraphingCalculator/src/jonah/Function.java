@@ -33,7 +33,7 @@ public class Function {
 				double tempres = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i)), n);
 				formula.set(i, tempres);
 			}
-            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum") | tempval.equals("pro") | tempval.equals("fac")) {
+            if(tempval.equals("log") | tempval.equals("der") | tempval.equals("sum") | tempval.equals("pro") | tempval.equals("fac") | tempval.equals("int")) {
                 double xVal;
                 double base;
                 double lowerBound;
@@ -72,6 +72,15 @@ public class Function {
                     case("fac"):
                         Factorial tempfac = new Factorial(new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), x);
                         formula.set(i, tempfac.evaluate());
+                        break;
+                    case("int"):
+                        xVal = x;
+                        lowerBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n);
+                        higherBound = evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 2)), n);
+                        Integral tempintegral = new Integral(xVal, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 3)), lowerBound, higherBound);
+                        formula.set(i, tempintegral.evaluate());
+                        formula.remove(i + 1);
+                        formula.remove(i + 1);
                         break;
                     default:
                         break;

@@ -769,7 +769,7 @@ public class App extends JPanel {
 			if(tempval == '.') {
 				state = "DEC";
 			}
-			if(tempval == 's' | tempval == 'c' | tempval == 't' | tempval == 'a' | tempval == 'd' | tempval == 'p' | tempval == 'f') { //All functions
+			if(tempval == 's' | tempval == 'c' | tempval == 't' | tempval == 'a' | tempval == 'd' | tempval == 'p' | tempval == 'f' | tempval == 'i') { //All functions
 				if(tempval != 'a' | function.charAt(pointer + 1) == 'b') {  //For all functions except arcsin,...,arccot
 					operation.add("" + tempval + function.charAt(pointer + 1) + function.charAt(pointer + 2));
 					pointer += 2;
