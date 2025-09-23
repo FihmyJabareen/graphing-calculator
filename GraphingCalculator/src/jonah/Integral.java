@@ -1,7 +1,7 @@
 package jonah;
 import java.util.ArrayList;
 
-public class Integal extends Formula {
+public class Integral extends Formula {
     
     private ArrayList<Object> function;
     private Function equation;
@@ -23,4 +23,4 @@ public class Integal extends Formula {
         double sum = 0;
         return sum;
     }
-
+}
