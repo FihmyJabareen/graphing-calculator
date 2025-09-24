@@ -24,7 +24,7 @@ public class Function {
 			}
 			tempval = "" + formula.get(i);
 			char c = tempval.charAt(0);
-			if((c == 's' && tempval.charAt(1) == 'i') | c == 'c' | c == 't' | c == 'a' | (c == 'l' && tempval.charAt(1) == 'n')) { //if a function like sin(x), arccot(x), abs(x), ln(x)
+			if((c == 's' && (tempval.charAt(1) == 'i' | tempval.charAt(1) == 'e')) | c == 'c' | c == 't' | c == 'a' | (c == 'l' && tempval.charAt(1) == 'n')) { //if a function like sin(x), arccot(x), abs(x), ln(x)
 				double temporaryResult = Operations(tempval, 0, evaluate(x, new ArrayList<Object>((ArrayList<Object>)formula.get(i + 1)), n));
 				formula.set(i, temporaryResult);
 				formula.remove(i + 1);

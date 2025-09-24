@@ -43,15 +43,11 @@ public class PixelGrid extends JPanel {
 	}
 	
 	public void setPoint(int x, int y, Color color, boolean isVisible, int functionIndex) {
-		for(int xinc = 0; xinc < 3; xinc++) {
-			for(int yinc = 0; yinc < 3; yinc++) {
-				if(x + xinc < 601 && y + yinc < 601 && x + xinc > -1 && y + yinc > -1) {
-					pixelColors.get(functionIndex)[x + xinc][y + yinc] = color;
-					pixelVisible.get(functionIndex)[x + xinc][y + yinc]  = isVisible;
-				}
-			}
+        if(x < 601 && y < 601 && x > -1 && y > -1) {
+            pixelColors.get(functionIndex)[x][y] = color;
+            pixelVisible.get(functionIndex)[x][y] = isVisible;
 		}
-		repaint(x, y, 3, 3);
+		repaint(x, y, 1, 1);
 	}
 	
 	public void setPixel(int x, int y, Color color, boolean showPixel) {

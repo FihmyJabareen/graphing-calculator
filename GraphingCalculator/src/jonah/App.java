@@ -12,6 +12,7 @@ import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.Scanner;
 import jonah.Function;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,12 +35,15 @@ public class App extends JPanel {
 						new Color(222, 211, 38), //yellow
 						new Color(201, 109, 22), //orange
 						new Color(212, 48, 197), //pink
-						new Color(120, 48, 212),};  // purple
+						new Color(120, 48, 212)};  // purple
 	private static double minimumX;
 	private static double maximumX;
 	private static double minimumY;
 	private static double maximumY;
-	
+
+    private static ArrayList<ArrayList<Integer[]>> yPairs = new ArrayList<ArrayList<Integer[]>>();
+	private static ArrayList<ArrayList<Integer[]>> xPairs = new ArrayList<ArrayList<Integer[]>>();
+
 	private static PixelGrid grid;
 	
 	private static Integer prevX;
@@ -581,11 +585,7 @@ public class App extends JPanel {
 	}
 	
 	public static boolean isWithinPoint(double yVal, double yPoint, double increment) {
-		boolean isWithinPoint = false;
-		if(Math.abs(yPoint - yVal) <= increment) {
-			return true;
-		}
-		return isWithinPoint;
+		return Math.abs(yPoint - yVal) <= increment;
 	}
 	
 	public static void setUpGraph() {
@@ -593,14 +593,18 @@ public class App extends JPanel {
 		yValuePositions.clear();
 		yPointPositions.clear();
 		yValues.clear();
+        yPairs.clear();
+        xPairs.clear();
 		initialX.clear();
 		finalX.clear();
 		for(int functionIndex = 0; functionIndex < functionCollection.size(); functionIndex++) {
-			for(int x = 0; x < 601; x += 3) {
-				for(int y = 0; y < 601; y += 3) {
+			for(int x = 0; x < 601; x += 1) {
+				for(int y = 0; y < 601; y += 1) {
 					grid.setPoint(x, y, Color.white, false, functionIndex);
 				}
 			}
+            yPairs.add(new ArrayList<Integer[]>());
+            xPairs.add(new ArrayList<Integer[]>());
 			parseIndex.add(0);
 			yValuePositions.add(new String[601]);
 			yPointPositions.add(new int[601]);
@@ -621,125 +625,152 @@ public class App extends JPanel {
 		maximumY -= increment;
 		setUpGraph();
 	}
-	
+    
+    public static int getPoint(double increment, double yPosition, double yMin) {
+        return (int)((yPosition - yMin)/increment);
+    }
+
 	public static void graph(int functionIndex) {
 		double range = finalX.get(functionIndex) - initialX.get(functionIndex);
 		double increment = (range/600);
 		double precision = increment/2;
-		double initialY = minimumY;
-		
-		for(int x = 0; x < 601; x++) {
-			double outOfBoundsHigh = maximumY - precision;
-			double outOfBoundsLow = minimumY + precision;
-			yValuePositions.get(functionIndex)[x] = "OUTSIDE";
-			yPointPositions.get(functionIndex)[x] = 0;
-			double yVal = initialY;
-			if(yValues.get(functionIndex)[x] < outOfBoundsHigh && yValues.get(functionIndex)[x] > outOfBoundsLow) {
-				yValuePositions.get(functionIndex)[x] = "INSIDE";
-				for(int y = 0; y < 601; y++) {
-					yVal += increment;
-					if(isWithinPoint(yVal, yValues.get(functionIndex)[x], precision)) {
-						CreatePixel(x - 1, y, functionIndex);
-						yPointPositions.get(functionIndex)[x] = y;
-					}
-				}
-			}
-		}
-		fillLines(range, increment, functionIndex, precision);
-	}
-	
-	public static void fillLines(double range, double increment, int functionIndex, double precision) {
+		double yVal = minimumY;
+        double initialY = minimumY;
 		double outOfBoundsHigh = maximumY - precision;
 		double outOfBoundsLow = minimumY + precision;
+
+    
 		for(int x = 0; x < 601; x++) {
-			boolean hasStarted = false;
-			if(!(yValues.get(functionIndex)[x] + "").equals("Infinity") && !(yValues.get(functionIndex)[x] + "").equals("NaN")) {
-				if(yValuePositions.get(functionIndex)[x].equals("INSIDE")) {
-					if(x != 600) {
-						if(yValuePositions.get(functionIndex)[x+1].equals("INSIDE")) {
-							int currentY = yPointPositions.get(functionIndex)[x];
-							int nextY = yPointPositions.get(functionIndex)[x+1];
-							int difference = currentY - nextY;
-							int halfway = Math.abs(difference)/2;
-							if(difference < 0) { //next point is above
-								for(int y = currentY; y < nextY - halfway; y++) {
-									CreatePixel(x - 1, y, functionIndex);
-								}
-								for(int y = nextY - halfway; y < nextY; y++) {
-									CreatePixel(x, y, functionIndex);
-								}
-							}
-							if(difference > 0) { //next point is bellow
-								for(int y = currentY - 1; y >= currentY - halfway; y--) {
-									CreatePixel(x - 1, y, functionIndex);
-								}
-								for(int y = currentY - halfway - 1; y > nextY; y--) {
-									CreatePixel(x, y, functionIndex);
-								}
-							}
-						}
-					}
-				} else {
-					if(x != 600) {
-						if(yValuePositions.get(functionIndex)[x+1].equals("INSIDE")) { //outside to inside
-							if(yValues.get(functionIndex)[x] > outOfBoundsHigh) { //from the top
-								for(int y = 600; y >= 0; y--) {
-									if(!hasStarted) {
-										if(yPointPositions.get(functionIndex)[x+1] == y) {
-											hasStarted = true;
-										}
-									}
-									if(!hasStarted) {
-										CreatePixel(x - 1, y, functionIndex);
-									}
-								}
-							} else if(yValues.get(functionIndex)[x] < outOfBoundsLow){ //from the bottom
-								for(int y = 0; y < 601; y++) {
-									if(!hasStarted) {
-										if(yPointPositions.get(functionIndex)[x+1] == y) {
-											hasStarted = true;
-										}
-									} 
-									if(!hasStarted) {
-										CreatePixel(x - 1, y, functionIndex);
-									}
-								}
-							}
-						}
-					}
-					if(x != 0) {
-						if(yValuePositions.get(functionIndex)[x-1].equals("INSIDE")) { //inside to outside
-							if(yValues.get(functionIndex)[x] > outOfBoundsHigh) { //from the top
-								for(int y = 0; y < 601; y++) {
-									if(!hasStarted) {
-										if(yPointPositions.get(functionIndex)[x-1] == y) {
-											hasStarted = true;
-										}
-									} else {
-										CreatePixel(x - 1, y, functionIndex);
-									}
-								}
-							} else if(yValues.get(functionIndex)[x] < outOfBoundsLow){ //from the bottom
-								for(int y = 0; y < 601; y++) {
-									if(!hasStarted) {
-										if(yPointPositions.get(functionIndex)[x-1] == y) {
-											hasStarted = true;
-										}
-									} 
-									if(!hasStarted) {
-										CreatePixel(x - 1, y, functionIndex);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+            int pointer = yPairs.get(functionIndex).size() - 1;
+			yValuePositions.get(functionIndex)[x] = "OUTSIDE";
+			yPointPositions.get(functionIndex)[x] = 0;
+            double yPosition = yValues.get(functionIndex)[x];
+			if(yPosition < outOfBoundsHigh && yPosition > outOfBoundsLow) {
+                int yPoint = getPoint(increment, yPosition, initialY);
+                if(yPairs.get(functionIndex).size() == 0) {
+                    yPairs.get(functionIndex).add(new Integer[2]);
+                    yPairs.get(functionIndex).get(0)[0] = yPoint;
+                    xPairs.get(functionIndex).add(new Integer[2]);
+                    xPairs.get(functionIndex).get(0)[0] = x;
+                } else if(yPairs.get(functionIndex).get(pointer)[0] == null) {
+                    yPairs.get(functionIndex).get(pointer)[0] = yPoint;
+                    xPairs.get(functionIndex).get(pointer)[0] = x;
+                } else {
+                    Integer[] tempArr = yPairs.get(functionIndex).get(pointer);
+                    if(tempArr[0] != null) {
+                        if(tempArr[0] != yPoint) {
+                            yPairs.get(functionIndex).get(pointer)[1] = yPoint;
+                            xPairs.get(functionIndex).get(pointer)[1] = x;
+                            yPairs.get(functionIndex).add(new Integer[2]);
+                            xPairs.get(functionIndex).add(new Integer[2]);
+                            yPairs.get(functionIndex).get(pointer + 1)[0] = yPoint;
+                            xPairs.get(functionIndex).get(pointer + 1)[0] = x;
+                        }
+                    }
+                }
+				yValuePositions.get(functionIndex)[x] = "INSIDE";
+                yPointPositions.get(functionIndex)[x] = yPoint;
+			} else if(!(yPosition + "").equals("NaN") && ((int)yPosition != Integer.MAX_VALUE && (int)yPosition != Integer.MIN_VALUE)) {
+                int yPoint = getPoint(increment, yPosition, initialY);
+                if(yPairs.get(functionIndex).size() == 0) {
+                    yPairs.get(functionIndex).add(new Integer[2]);
+                    xPairs.get(functionIndex).add(new Integer[2]);
+                    yPairs.get(functionIndex).get(0)[0] = yPoint; 
+                    xPairs.get(functionIndex).get(0)[0] = x;
+                } else {
+                    Integer[] tempArr = yPairs.get(functionIndex).get(pointer);
+                    if(tempArr[0] != null) {
+                        if(tempArr[0] < 601 && tempArr[0] > -1) {
+                            yPairs.get(functionIndex).get(pointer)[1] = yPoint;
+                            xPairs.get(functionIndex).get(pointer)[1] = x;
+                            yPairs.get(functionIndex).add(new Integer[2]);
+                            xPairs.get(functionIndex).add(new Integer[2]);
+                            yPairs.get(functionIndex).get(pointer + 1)[0] = yPoint;
+                            xPairs.get(functionIndex).get(pointer + 1)[0] = x;
+                        } else if((tempArr[0] < 0 && yPoint < 0) | (tempArr[0] > 600 && yPoint > 600)) {
+                            yPairs.get(functionIndex).get(pointer)[0] = yPoint;
+                            xPairs.get(functionIndex).get(pointer)[0] = x;
+                        } 
+                    } else {
+                        yPairs.get(functionIndex).get(pointer)[0] = yPoint;
+                        xPairs.get(functionIndex).get(pointer)[0] = x;
+                    }
+                }
+            } else if((yPosition + "").equals("NaN") | ((int)yPosition == Integer.MAX_VALUE | (int)yPosition == Integer.MIN_VALUE)) {
+                if(yPairs.get(functionIndex).size() != 0 && x != 0) {
+                    if(yPairs.get(functionIndex).get(pointer)[0] != null) {
+                        double yPrevious = yValues.get(functionIndex)[x - 1];
+                        if(xPairs.get(functionIndex).get(pointer)[0] == x - 1) {
+                            yPairs.get(functionIndex).remove(pointer);
+                            xPairs.get(functionIndex).remove(pointer);
+                        } else {
+                            yPairs.get(functionIndex).get(pointer)[1] = getPoint(increment, yPrevious, initialY);
+                            xPairs.get(functionIndex).get(pointer)[1] = x - 1;
+                        }
+                        yPairs.get(functionIndex).add(new Integer[2]);
+                        xPairs.get(functionIndex).add(new Integer[2]);
+                    }
+                }
+            }
 		}
+        if(yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[1] == null && yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[0] != null) {
+            if(yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[0] < 601 && yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[0] > -1) {
+                yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[1] = yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[0];
+                xPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[1] = 599;
+            } else {
+                yPairs.get(functionIndex).remove(yPairs.get(functionIndex).size() - 1);
+                xPairs.get(functionIndex).remove(xPairs.get(functionIndex).size() - 1);
+            }
+        } else if(yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[1] == null && yPairs.get(functionIndex).get(yPairs.get(functionIndex).size() - 1)[0] == null) {
+            yPairs.get(functionIndex).remove(yPairs.get(functionIndex).size() - 1);
+            xPairs.get(functionIndex).remove(xPairs.get(functionIndex).size() - 1);
+        }
+        /*
+        for(int i = 0; i < yPairs.size(); i++) {
+            System.out.print(Arrays.toString(yPairs.get(i)) + ", " + Arrays.toString(xPairs.get(i)));
+            System.out.println();
+        }
+        */
+        fillLines(range, increment, functionIndex, precision);
 	}
-	
-	public static void CreatePixel(int x, int y, int functionIndex) {
-		grid.setPoint(x, 600 - y, functionColor[functionIndex % 7], true, functionIndex);
+    
+    public static void fillLines(double range, double increment, int functionIndex, double precision) {
+        for(int i = 0; i < yPairs.get(functionIndex).size(); i++) {
+            double x1 = xPairs.get(functionIndex).get(i)[0];
+            double x2 = xPairs.get(functionIndex).get(i)[1];
+            double y1 = yPairs.get(functionIndex).get(i)[0];
+            double y2 = yPairs.get(functionIndex).get(i)[1];
+            
+            CreatePixel((int)x1, (int)y1, functionIndex, 1);
+            CreatePixel((int)x2, (int)y2, functionIndex, 1);
+            double middleSlope = (y2 - y1)/(x2 - x1);
+            if(middleSlope <= 1 && middleSlope >= -1) {
+                CreatePixel((int)x1, (int)y1 - 1, functionIndex, 1);
+                for(int x = (int)x1; x <= (int)x2; x++) {
+                    double point = middleSlope * (x - x1) + y1;
+                    CreatePixel(x, (int)point + 1, functionIndex, Math.abs(1 - (((int)point + 1) - point)));
+                    CreatePixel(x, (int)point, functionIndex, 1);
+                    point--;
+                    CreatePixel(x, (int)point, functionIndex, Math.abs(1 - ((point - (int)point))));
+                }
+            }
+        }
+    }
+    public static void CreatePixel(int x, int y, int functionIndex, double intensity) {
+        Color tempColor = functionColor[functionIndex % 7];
+        int r = tempColor.getRed();
+        int g = tempColor.getGreen();
+        int b = tempColor.getBlue();
+        if(intensity == 1) {
+		    grid.setPoint(x, 601 - y, tempColor, true, functionIndex);
+        } else {
+            if(intensity > 1) {
+                intensity = 1;
+            } else if(intensity < 0) {
+                intensity = 0;
+            }
+            grid.setPoint(x, 601 - y, new Color(r, g, b, (int)(intensity * 255)), true, functionIndex);
+        }
 	}
 	
 	public static ArrayList<Object> ParseFunction(String function, int functionIndex) {
