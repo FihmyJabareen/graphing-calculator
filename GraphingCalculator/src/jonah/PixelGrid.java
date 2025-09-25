@@ -55,6 +55,13 @@ public class PixelGrid extends JPanel {
 		for(int i = 0; i < functionAmount - 1; i++) {
 			if(pixelVisible.get(i)[x][y]) {
 				isVisible = true;
+                if(color.equals(Color.black)) {
+                    Color newColor = pixelColors.get(i)[x][y];
+                    int r = newColor.getRed();
+                    int g = newColor.getGreen();
+                    int b = newColor.getBlue();
+                    setPoint(x, y, new Color(r, g, b), true, i);
+                }
 			}
 		}
 		if(!isVisible) {

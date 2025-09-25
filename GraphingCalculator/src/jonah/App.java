@@ -84,7 +84,6 @@ public class App extends JPanel {
 		System.out.println("███████╗██║███████╗╚█████╔╝██║  ██║███████╗╚█████╔╝ ");
 		System.out.println("╚══════╝╚═╝╚══════╝ ╚════╝ ╚═╝  ╚═╝╚══════╝ ╚════╝  ");
 		System.out.println("____________________________________________________");
-
 		functionCollection = new ArrayList<String>();
 		boolean startGraph = false;
 		
@@ -687,7 +686,7 @@ public class App extends JPanel {
                             xPairs.get(functionIndex).add(new Integer[2]);
                             yPairs.get(functionIndex).get(pointer + 1)[0] = yPoint;
                             xPairs.get(functionIndex).get(pointer + 1)[0] = x;
-                        } else if((tempArr[0] < 0 && yPoint < 0) | (tempArr[0] > 600 && yPoint > 600)) {
+                        } else if((tempArr[0] < 0 && yPoint < 0) | (tempArr[0] > 600 && yPoint > 600) | Math.abs(tempArr[0] - yPoint) > 610) {
                             yPairs.get(functionIndex).get(pointer)[0] = yPoint;
                             xPairs.get(functionIndex).get(pointer)[0] = x;
                         } 
