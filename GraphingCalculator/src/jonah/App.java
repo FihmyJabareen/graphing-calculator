@@ -744,7 +744,7 @@ public class App extends JPanel {
             CreatePixel((int)x1, (int)y1, functionIndex, 1);
             CreatePixel((int)x2, (int)y2, functionIndex, 1);
             double middleSlope = (y2 - y1)/(x2 - x1);
-            if(middleSlope <= 1 && middleSlope >= -1) {
+            if(middleSlope < 1 && middleSlope > -1) {
                 CreatePixel((int)x1, (int)y1 - 1, functionIndex, 1);
                 for(int x = (int)x1; x <= (int)x2; x++) {
                     double point = middleSlope * (x - x1) + y1;
@@ -752,6 +752,34 @@ public class App extends JPanel {
                     CreatePixel(x, (int)point, functionIndex, 1);
                     point--;
                     CreatePixel(x, (int)point, functionIndex, Math.abs(1 - ((point - (int)point))));
+                }
+            } else if(Math.abs(middleSlope) == 1) {
+                CreatePixel((int)x1, (int)y1 + 1, functionIndex, 0.5);
+                CreatePixel((int)x1, (int)y1 - 1, functionIndex, 0.5);
+                CreatePixel((int)x2, (int)y2 + 1, functionIndex, 0.5);
+                CreatePixel((int)x2, (int)y2 - 1, functionIndex, 0.5);
+            } else {
+                CreatePixel((int)x1 + 1, (int)y1, functionIndex, 1);
+                middleSlope = 1/middleSlope;
+                int counter = 0;
+                if(middleSlope > 0) {
+                    for(int y = (int)y1; y <= (int)y2; y++) {
+                        double point = x1 + middleSlope * counter;
+                        CreatePixel((int)point + 1, y, functionIndex, Math.abs(1 - (((int)point + 1) - point)));
+                        CreatePixel((int)point, y, functionIndex, 1);
+                        point--;
+                        CreatePixel((int)point, y, functionIndex, Math.abs(1 - ((point - (int)point))));
+                        counter++;
+                    }
+                } else {
+                    for(int y = (int)y2; y <= (int)y1; y++) {
+                        double point = x2 + middleSlope * counter;
+                        CreatePixel((int)point + 1, y, functionIndex, Math.abs(1 - (((int)point + 1) - point)));
+                        CreatePixel((int)point, y, functionIndex, 1);
+                        point--;
+                        CreatePixel((int)point, y, functionIndex, Math.abs(1 - ((point - (int)point))));
+                        counter++;
+                    }
                 }
             }
         }
@@ -800,7 +828,7 @@ public class App extends JPanel {
 			if(tempval == '.') {
 				state = "DEC";
 			}
-			if(tempval == 's' | tempval == 'c' | tempval == 't' | tempval == 'a' | tempval == 'd' | tempval == 'p' | tempval == 'f' | tempval == 'i') { //All functions
+			if(tempval == 's' | tempval == 'c' | tempval == 't' | tempval == 'a' | tempval == 'd' | (tempval == 'p' && function.charAt(pointer + 1) == 'r') | tempval == 'f' | tempval == 'i') { //All functions
 				if(tempval != 'a' | function.charAt(pointer + 1) == 'b') {  //For all functions except arcsin,...,arccot
 					operation.add("" + tempval + function.charAt(pointer + 1) + function.charAt(pointer + 2));
 					pointer += 2;
