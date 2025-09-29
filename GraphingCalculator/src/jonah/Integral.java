@@ -17,10 +17,28 @@ public class Integral extends Formula {
         equation = new Function(function);
     }
 
-    public double evaluate(){
-        int lower = (int)(lowerBound);
-        int higher = (int)(higherBound);
-        double sum = 0;
-        return sum;
+    public double evaluate(){ 
+        double originalValue = findIntegral(lowerBound, higherBound);
+        return integrate(lowerBound, higherBound, originalValue, 1);
+    }
+    
+    public double integrate(double lower, double higher, double originalValue, int depth) {
+        double midpoint = (lower + higher)/2;
+        double s1 = findIntegral(lower, midpoint);
+        double s2 = findIntegral(midpoint, higher);
+        if(Math.abs(s1 + s2 - originalValue) < 0.001 | depth > 15) {
+            return s1 + s2;
+        } else {
+            return integrate(lower, midpoint, s1, depth + 1) + integrate(midpoint, higher, s2, depth + 1);
+        } 
+    }
+
+    private double findIntegral(double lower, double higher) {
+        double deltaX = (higher - lower)/6;
+        double midpoint = (higher + lower)/2;
+        double fa = equation.evaluate(lower, new ArrayList<Object>(function), 0);
+        double fmidpoint = 4 * equation.evaluate(midpoint, new ArrayList<Object>(function), 0);
+        double fb = equation.evaluate(higher, new ArrayList<Object>(function), 0);
+        return deltaX * (fa + fmidpoint + fb);
     }
 }
